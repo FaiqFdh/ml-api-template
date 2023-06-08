@@ -112,6 +112,59 @@ def predict(req: RequestPredict, response: Response):
         traceback.print_exc()
         response.status_code = 500
         return "Internal Server Error"
+
+import pandas as pd
+from sklearn.cluster import KMeans
+from sklearn.preprocessing import StandardScaler
+from sklearn.neighbors import NearestNeighbors
+
+#step 1 read the file
+tourism = pd.read_csv('./tourism_with_id.csv')
+# Step 2: Preprocess the data (if needed)
+
+# Step 3: Feature engineering
+features = tourism[['Lat', 'Long']]
+
+# Step 4: Feature scaling
+scaler = StandardScaler()
+scaled_features = scaler.fit_transform(features)
+
+# Step 5: Apply k-means clustering
+k = 4  # Set the number of clusters
+kmeans = KMeans(n_clusters=k, random_state=42)
+kmeans.fit(scaled_features)
+
+# Step 6: Assign cluster labels
+cluster_labels = kmeans.labels_
+
+
+class RequestLoc(BaseModel):
+    latitude: float
+    longitude: float
+       
+@app.post("/predict_loc")
+def recommend_locations(req: RequestLoc, response: Response):
+    try:
+        latitude = req.latitude
+        longitude = req.longitude
+        target_location = [latitude, longitude]
+        target_scaled = scaler.transform([target_location])
+
+        # Find the nearest neighbors
+        n_neighbors = 10  # Set the number of nearest neighbors to recommend
+        nbrs = NearestNeighbors(n_neighbors=n_neighbors, algorithm='ball_tree').fit(scaled_features)
+        distances, indices = nbrs.kneighbors(target_scaled)
+
+        # Get the recommended locations based on cluster labels
+        recommended_locations = tourism.iloc[indices[0]][['Place_Id', 'Place_Name', 'Lat', 'Long']]
+
+        return recommended_locations.to_dict(orient='records')
+
+    except Exception as e:
+        traceback.print_exc()
+        response.status_code = 500
+        return "Internal Server Error"
+
     
 # If your model need image input use this endpoint!
 # @app.post("/predict_image")
