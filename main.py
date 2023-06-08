@@ -67,7 +67,6 @@ def index():
 
 class RequestPredict(BaseModel):
     user_id: int
-    place_id: int
 
 # @app.post("/predict_text")
 # def predict_text(req: RequestText, response: Response):
@@ -95,10 +94,9 @@ class RequestPredict(BaseModel):
 def predict(req: RequestPredict, response: Response):
     try:
         user_id = req.user_id
-        place_id = req.place_id
 
         # Create dataset for making recommendations
-        tourism_data = np.array([place_id for a in range(1, 20)])
+        tourism_data = np.array([place_id for a in range(1, 436)])
         user_data = np.array([user_id for a in range(len(tourism_data))])
 
         predictions = model.predict([user_data, tourism_data])
