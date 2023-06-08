@@ -41,14 +41,16 @@ import tensorflow as tf
 from pydantic import BaseModel
 from urllib.request import Request
 from fastapi import FastAPI, Response, UploadFile
-from utils import load_image_into_numpy_array
+
+import numpy as np
+#from utils import load_image_into_numpy_array
 
 # Initialize Model
 # If you already put yout model in the same folder as this main.py
 # You can load .h5 model or any model below this line
 
 # If you use h5 type uncomment line below
-# model = tf.keras.models.load_model('./my_model.h5')
+model = tf.keras.models.load_model('./recommendation_rating_model.h5')
 # If you use saved model type uncomment line below
 # model = tf.saved_model.load("./my_model_folder")
 
@@ -62,6 +64,10 @@ def index():
 # If your model need text input use this endpoint!
 class RequestText(BaseModel):
     text:str
+
+class RequestPredict(BaseModel):
+    user_id: int
+    place_id: int
 
 @app.post("/predict_text")
 def predict_text(req: RequestText, response: Response):
@@ -84,7 +90,28 @@ def predict_text(req: RequestText, response: Response):
         traceback.print_exc()
         response.status_code = 500
         return "Internal Server Error"
+    
+def predict(req: RequestPredict, response: Response):
+    try:
+        user_id = req.user_id
+        place_id = req.place_id
 
+        # Create dataset for making recommendations
+        tourism_data = np.array([place_id for a in range(1, 20)])
+        user_data = np.array([user_id for a in range(len(tourism_data))])
+
+        predictions = model.predict([user_data, tourism_data])
+        predictions = np.array([a[0] for a in predictions])
+
+        recommended_tourism_ids = (-predictions).argsort()[:10].tolist()
+
+        return {"recommended_tourism_ids": recommended_tourism_ids}
+
+    except Exception as e:
+        traceback.print_exc()
+        response.status_code = 500
+        return "Internal Server Error"
+    
 # If your model need image input use this endpoint!
 @app.post("/predict_image")
 def predict_image(uploaded_file: UploadFile, response: Response):
