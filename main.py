@@ -94,6 +94,9 @@ class RequestPredict(BaseModel):
 def predict(req: RequestPredict, response: Response):
     try:
         user_id = req.user_id
+        
+        #jumlah id tempat
+        #n_tourisms = len(tourism.Place_Id.unique())
 
         id_place = range(1, 436)
         # Creating dataset for making recommendations for the first user
