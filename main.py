@@ -62,35 +62,36 @@ def index():
     return "Hello world from ML endpoint!"
 
 # If your model need text input use this endpoint!
-class RequestText(BaseModel):
-    text:str
+# class RequestText(BaseModel):
+#     text:str
 
 class RequestPredict(BaseModel):
     user_id: int
     place_id: int
 
-@app.post("/predict_text")
-def predict_text(req: RequestText, response: Response):
-    try:
-        # In here you will get text sent by the user
-        text = req.text
-        print("Uploaded text:", text)
+# @app.post("/predict_text")
+# def predict_text(req: RequestText, response: Response):
+#     try:
+#         # In here you will get text sent by the user
+#         text = req.text
+#         print("Uploaded text:", text)
         
-        # Step 1: (Optional) Do your text preprocessing
+#         # Step 1: (Optional) Do your text preprocessing
         
-        # Step 2: Prepare your data to your model
+#         # Step 2: Prepare your data to your model
         
-        # Step 3: Predict the data
-        # result = model.predict(...)
+#         # Step 3: Predict the data
+#         # result = model.predict(...)
         
-        # Step 4: Change the result your determined API output
+#         # Step 4: Change the result your determined API output
         
-        return "Endpoint not implemented"
-    except Exception as e:
-        traceback.print_exc()
-        response.status_code = 500
-        return "Internal Server Error"
-    
+#         return "Endpoint not implemented"
+#     except Exception as e:
+#         traceback.print_exc()
+#         response.status_code = 500
+#         return "Internal Server Error"
+
+@app.post("/predict")
 def predict(req: RequestPredict, response: Response):
     try:
         user_id = req.user_id
@@ -113,34 +114,34 @@ def predict(req: RequestPredict, response: Response):
         return "Internal Server Error"
     
 # If your model need image input use this endpoint!
-@app.post("/predict_image")
-def predict_image(uploaded_file: UploadFile, response: Response):
-    try:
-        # Checking if it's an image
-        if uploaded_file.content_type not in ["image/jpeg", "image/png"]:
-            response.status_code = 400
-            return "File is Not an Image"
+# @app.post("/predict_image")
+# def predict_image(uploaded_file: UploadFile, response: Response):
+#     try:
+#         # Checking if it's an image
+#         if uploaded_file.content_type not in ["image/jpeg", "image/png"]:
+#             response.status_code = 400
+#             return "File is Not an Image"
         
-        # In here you will get a numpy array in "image" variable.
-        # You can use this file, to load and do processing
-        # later down the line
-        image = load_image_into_numpy_array(uploaded_file.file.read())
-        print("Image shape:", image.shape)
+#         # In here you will get a numpy array in "image" variable.
+#         # You can use this file, to load and do processing
+#         # later down the line
+#         image = load_image_into_numpy_array(uploaded_file.file.read())
+#         print("Image shape:", image.shape)
         
-        # Step 1: (Optional, but you should have one) Do your image preprocessing
+#         # Step 1: (Optional, but you should have one) Do your image preprocessing
         
-        # Step 2: Prepare your data to your model
+#         # Step 2: Prepare your data to your model
         
-        # Step 3: Predict the data
-        # result = model.predict(...)
+#         # Step 3: Predict the data
+#         # result = model.predict(...)
         
-        # Step 4: Change the result your determined API output
+#         # Step 4: Change the result your determined API output
         
-        return "Endpoint not implemented"
-    except Exception as e:
-        traceback.print_exc()
-        response.status_code = 500
-        return "Internal Server Error"
+#         return "Endpoint not implemented"
+#     except Exception as e:
+#         traceback.print_exc()
+#         response.status_code = 500
+#         return "Internal Server Error"
 
 
 # Starting the server
