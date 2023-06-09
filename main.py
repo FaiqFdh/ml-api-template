@@ -92,7 +92,7 @@ class RequestPredict(BaseModel):
 
 @app.post("/predict")
 #def predict(req : RequestPredict, response: Response):
-def predict(response: Response, user_id):
+def predict(response: Response, user_id : int = Query(...)):
     try:
         #user_id = req.user_id
         
