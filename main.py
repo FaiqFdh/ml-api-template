@@ -91,9 +91,9 @@ class RequestPredict(BaseModel):
 #         return "Internal Server Error"
 
 @app.post("/predict")
-def predict(req: RequestPredict, response: Response):
+def predict(RequestPredict, response: Response):
     try:
-        user_id = req.user_id
+        #user_id = req.user_id
         
         #jumlah id tempat
         #n_tourisms = len(tourism.Place_Id.unique())
