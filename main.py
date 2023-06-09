@@ -150,8 +150,8 @@ class RequestLoc(BaseModel):
 @app.post("/predict_loc")
 def recommend_locations(latitude: float = Query(...), longitude: float = Query(...), response: Response):
     try:
-        latitude = req.latitude
-        longitude = req.longitude
+        #latitude = req.latitude
+        #longitude = req.longitude
         target_location = [latitude, longitude]
         target_scaled = scaler.transform([target_location])
 
