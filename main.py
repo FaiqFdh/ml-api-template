@@ -148,7 +148,10 @@ class RequestLoc(BaseModel):
     longitude: float
        
 @app.post("/predict_loc")
-def recommend_locations(latitude: float = Query(...), longitude: float = Query(...), response: Response):
+#def recommend_locations(latitude: float = Query(...), longitude: float = Query(...), response: Response):
+def recommend_locations(response: Response, latitude: float = Query(...), longitude: float = Query(...)):
+    # Function implementation
+
     try:
         #latitude = req.latitude
         #longitude = req.longitude
