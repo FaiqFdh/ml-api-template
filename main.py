@@ -89,7 +89,8 @@ class RequestPredict(BaseModel):
 #         traceback.print_exc()
 #         response.status_code = 500
 #         return "Internal Server Error"
-
+tourism = pd.read_csv('./tourism_data.csv')
+rating = pd.read_csv('./tourism')
 @app.post("/predict")
 #def predict(req : RequestPredict, response: Response):
 def predict(response: Response, user_id : int = Query(...)):
@@ -98,7 +99,7 @@ def predict(response: Response, user_id : int = Query(...)):
         
         #jumlah id tempat
         #n_tourisms = len(tourism.Place_Id.unique())
-
+        if user_id in userRating['user_id'].values:
         id_place = range(1, 436)
         # Creating dataset for making recommendations for the first user
         tourism_data = np.array(list(set(id_place)))
@@ -125,7 +126,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import NearestNeighbors
 
 #step 1 read the file
-tourism = pd.read_csv('./tourism_data.csv')
+#tourism = pd.read_csv('./tourism_data.csv')
 # Step 2: Preprocess the data (if needed)
 
 # Step 3: Feature engineering
