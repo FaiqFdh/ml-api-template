@@ -91,11 +91,12 @@ class RequestPredict(BaseModel):
 #         return "Internal Server Error"
 
 import mysql.connector
+import pandas as pd
 
 conn = mysql.connector.connect(
     host='34.101.37.160',
     database='capstone',
-    user='root',
+    user='user-capstone',
     password='123456'
 )
 
