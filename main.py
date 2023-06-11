@@ -130,10 +130,11 @@ def predict(req : RequestPredict, response: Response):
             filtered_tempat = tourism2[tourism2['Place_Id'].isin(recommended_tourism_ids_series)]
             
             # Convert float values to strings
-            filtered_tempat = filtered_tempat.astype(str)
+            #filtered_tempat = filtered_tempat.astype(str)
             
-            return {"recommended_tourism_ids": filtered_tempat.to_dict(orient='records')}
-        
+            return {"recommended_tourism_ids": filtered_tempat}
+            #return {"recommended_tourism_ids": filtered_tempat.to_dict(orient='records')}
+       
         else:
             # User ID doesn't exist, make random recommendations
              # Get the total number of tourism data
