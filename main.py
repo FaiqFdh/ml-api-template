@@ -119,6 +119,7 @@ def predict(response: Response, user_id : int = Query(...)):
         else:
             # User ID doesn't exist, make random recommendations
              # Get the total number of tourism data
+            print("Random Rekomendasi")
             total_tourism = len(tourism)
 
             # Generate random indices to select random recommendations
