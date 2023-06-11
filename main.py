@@ -166,14 +166,14 @@ class RequestLoc(BaseModel):
     longitude: float
        
 @app.post("/predict_loc")
-#def recommend_locations(req:RequestLoc, response: Response):
-def recommend_locations(response: Response, lat: float = Query(...), long: float = Query(...)):
+def recommend_locations(req:RequestLoc, response: Response):
+#def recommend_locations(response: Response, lat: float = Query(...), long: float = Query(...)):
     # Function implementation
 
     try:
-        #latitude = req.latitude
-        #longitude = req.longitude
-        target_location = [lat, long]
+        latitude = req.latitude
+        longitude = req.longitude
+        target_location = [latitude, longitude]
         target_scaled = scaler.transform([target_location])
 
         # Find the nearest neighbors
