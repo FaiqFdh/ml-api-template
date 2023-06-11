@@ -90,22 +90,6 @@ class RequestPredict(BaseModel):
 #         response.status_code = 500
 #         return "Internal Server Error"
 
-import mysql.connector
-import pandas as pd
-
-conn = mysql.connector.connect(
-    host='34.101.37.160',
-    database='capstone',
-    user='user-capstone',
-    password='123456'
-)
-
-# Execute the query and fetch the data
-tourism = pd.read_sql('SELECT * FROM tourism', conn)
-
-# Close the connection
-conn.close()
-
 @app.post("/predict")
 #def predict(req : RequestPredict, response: Response):
 def predict(response: Response, user_id : int = Query(...)):
@@ -141,7 +125,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import NearestNeighbors
 
 #step 1 read the file
-#tourism = pd.read_csv('./tourism_with_id.csv')
+tourism = pd.read_csv('./tourism_data.csv')
 # Step 2: Preprocess the data (if needed)
 
 # Step 3: Feature engineering
