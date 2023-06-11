@@ -90,6 +90,21 @@ class RequestPredict(BaseModel):
 #         response.status_code = 500
 #         return "Internal Server Error"
 
+import mysql.connector
+
+conn = mysql.connector.connect(
+    host='34.101.37.160',
+    database='capstone',
+    user='root',
+    password='123456'
+)
+
+# Execute the query and fetch the data
+tourism = pd.read_sql('SELECT * FROM tourism', conn)
+
+# Close the connection
+conn.close()
+
 @app.post("/predict")
 #def predict(req : RequestPredict, response: Response):
 def predict(response: Response, user_id : int = Query(...)):
@@ -125,11 +140,12 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import NearestNeighbors
 
 #step 1 read the file
-tourism = pd.read_csv('./tourism_with_id.csv')
+#tourism = pd.read_csv('./tourism_with_id.csv')
 # Step 2: Preprocess the data (if needed)
 
 # Step 3: Feature engineering
-features = tourism[['Lat', 'Long']]
+#features = tourism[['Lat', 'Long']]
+features = tourism[['lat', 'lon']]
 
 # Step 4: Feature scaling
 scaler = StandardScaler()
@@ -165,8 +181,9 @@ def recommend_locations(response: Response, latitude: float = Query(...), longit
         distances, indices = nbrs.kneighbors(target_scaled)
 
         # Get the recommended locations based on cluster labels
-        recommended_locations = tourism.iloc[indices[0]][['Place_Id', 'Place_Name', 'Lat', 'Long']]
-
+        #recommended_locations = tourism.iloc[indices[0]][['Place_Id', 'Place_Name', 'Lat', 'Long']]
+        recommended_locations = tourism.iloc[indices[0]]
+        
         return recommended_locations.to_dict(orient='records')
 
     except Exception as e:
