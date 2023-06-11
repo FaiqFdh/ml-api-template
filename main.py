@@ -37,6 +37,7 @@ import os
 import uvicorn
 import traceback
 import tensorflow as tf
+import pandas as pd
 
 from pydantic import BaseModel
 from urllib.request import Request
@@ -137,7 +138,6 @@ def predict(response: Response, user_id : int = Query(...)):
         response.status_code = 500
         return "Internal Server Error"
 
-import pandas as pd
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import NearestNeighbors
