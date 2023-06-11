@@ -123,25 +123,16 @@ def predict(req : RequestPredict, response: Response):
 
             recommended_tourism_ids = (-predictions).argsort()[:10]
             
-             # Filter rows in rating that have matching place IDs
-            matching_ratings = rating[rating['Place_Id'].isin(recommended_tourism_ids)]
+            # Convert recommended_tourism_ids to a pandas Series
+             recommended_tourism_ids_series = pd.Series(recommended_tourism_ids)
 
-            # Get the corresponding rows from tourism2 based on the filtered place IDs
-            recommended_tourism = tourism2[tourism2['Place_Id'].isin(matching_ratings['Place_Id'])]
-
-            # Return the recommended tourism data
-            return recommended_tourism.to_dict(orient='records')
-                
-#             # Convert recommended_tourism_ids to a pandas Series
-#             recommended_tourism_ids_series = pd.Series(recommended_tourism_ids)
-
-#             # Filter the rows in tempat that have the same place IDs as recommended_tourism_ids
-#             filtered_tempat = tourism2[tourism2['Place_Id'].isin(recommended_tourism_ids_series)]
+            # Filter the rows in tempat that have the same place IDs as recommended_tourism_ids
+            filtered_tempat = tourism2[tourism2['Place_Id'].isin(recommended_tourism_ids_series)]
             
-#             # Convert float values to strings
-#             filtered_tempat = filtered_tempat.astype(str)
-#             #return {"recommended_tourism_ids": filtered_tempat}
-#             return {"recommended_tourism_ids": filtered_tempat.to_dict(orient='records')}
+            # Convert float values to strings
+            filtered_tempat = filtered_tempat.astype(str)
+            
+            return {"recommended_tourism_ids": filtered_tempat.to_dict(orient='records')}
         
         else:
             # User ID doesn't exist, make random recommendations
