@@ -112,10 +112,13 @@ def predict(req : RequestPredict, response: Response):
 
             # Create dataset for making recommendations
             #tourism_data = np.array([for a in range(1, 436)])
-            tourism_data = np.array(list(set(id_place)))
-            user_data = np.array([user_id for a in range(len(tourism_data))])
-
-            predictions = model.predict([user_data, tourism_data])
+#             tourism_data = np.array(list(set(id_place)))
+#             user_data = np.array([user_id for a in range(len(tourism_data))])
+            
+            tourism_data = np.array(list(set(tourism.Place_Id)))
+            user = np.array([id_user for i in range(len(tourism_data))])
+  
+            predictions = model.predict([user, tourism_data])
             predictions = np.array([a[0] for a in predictions])
 
             recommended_tourism_ids = (-predictions).argsort()[:10]
