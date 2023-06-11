@@ -130,10 +130,9 @@ def predict(response: Response, user_id : int = Query(...)):
             random_indices = random.sample(range(len(tourism)), num_recommendations)
 
             # Get the random recommendations based on the selected indices
-            random_recommendations = tourism.iloc[random_indices]
+            random_recommendations = tourism.iloc[random_indices].tolist()
 
-            return random_recommendations
-
+            return {"random_tourism_ids": random_recommendations}
      
     except Exception as e:
         traceback.print_exc()
