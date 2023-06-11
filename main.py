@@ -199,6 +199,31 @@ def recommend_locations(response: Response, latitude: float = Query(...), longit
         response.status_code = 500
         return "Internal Server Error"
 
+@app.post("/predict_loc2")
+def recommend_locations(req:RequestLoc, response: Response):
+    # Function implementation
+
+    try:
+        latitude = req.latitude
+        longitude = req.longitude
+        target_location = [latitude, longitude]
+        target_scaled = scaler.transform([target_location])
+
+        # Find the nearest neighbors
+        n_neighbors = 10  # Set the number of nearest neighbors to recommend
+        nbrs = NearestNeighbors(n_neighbors=n_neighbors, algorithm='ball_tree').fit(scaled_features)
+        distances, indices = nbrs.kneighbors(target_scaled)
+
+        # Get the recommended locations based on cluster labels
+        #recommended_locations = tourism.iloc[indices[0]][['Place_Id', 'Place_Name', 'Lat', 'Long']]
+        recommended_locations = tourism.iloc[indices[0]]
+        
+        return recommended_locations.to_dict(orient='records')
+
+    except Exception as e:
+        traceback.print_exc()
+        response.status_code = 500
+        return "Internal Server Error"
     
 # If your model need image input use this endpoint!
 # @app.post("/predict_image")
