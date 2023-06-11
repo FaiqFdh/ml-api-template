@@ -105,8 +105,8 @@ def predict(req : RequestPredict, response: Response):
         #jumlah id tempat
         #n_tourisms = len(tourism.Place_Id.unique())
         if user_id in rating['User_Id'].values:
-            #id_place = range(1, 436)
-            id_place = list(range(1, 436))
+            id_place = range(1, 436)
+            #id_place = list(range(1, 436))
             # Creating dataset for making recommendations for the first user
             #tourism_data = np.array(list(set(id_place)))
 
