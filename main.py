@@ -93,6 +93,8 @@ class RequestPredict(BaseModel):
 tourism = pd.read_csv('./tourism_data.csv')
 rating = pd.read_csv('./tourism_rating.csv')
 
+import random
+
 @app.post("/predict")
 #def predict(req : RequestPredict, response: Response):
 def predict(response: Response, user_id : int = Query(...)):
