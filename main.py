@@ -127,7 +127,7 @@ def predict(response: Response, user_id : int = Query(...)):
 
             # Generate random indices to select random recommendations
             num_recomendations = 5
-            random_indices = random.sample(range(tourism), num_recommendations)
+            random_indices = random.sample(range(len(tourism)), num_recommendations)
 
             # Get the random recommendations based on the selected indices
             random_recommendations = tourism.iloc[random_indices]
