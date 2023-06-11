@@ -7,3 +7,4 @@ Pillow
 tensorflow
 pandas 
 scikit-learn
+mysql-connector
