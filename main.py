@@ -93,6 +93,8 @@ class RequestPredict(BaseModel):
 tourism = pd.read_csv('./tourism_data.csv')
 rating = pd.read_csv('./tourism_rating.csv')
 tourism2 = pd.read_csv('./tourism_with_id.csv')
+tourism2 = tourism2.drop(['Time_Minutes','Coordinate' ,'Unnamed: 11', 'Unnamed: 12'], axis=1)
+#TIDAK BOLEH ADA VALUE KOSONG , JIKA ADA ERROR RETURN JSON
 
 import random
 
@@ -122,7 +124,7 @@ def predict(req : RequestPredict, response: Response):
             filtered_tempat = tourism2[tourism2['Place_Id'].isin(recommended_tourism_ids_series)]
             
             # Convert float values to strings
-            filtered_tempat = filtered_tempat.astype(str)
+            #filtered_tempat = filtered_tempat.astype(str)
             
             #return {"recommended_tourism_ids": filtered_tempat}
             return {"recommended_tourism_ids": filtered_tempat.to_dict(orient='records')}
