@@ -99,7 +99,7 @@ import random
 def predict(req : RequestPredict, response: Response):
 #def predict(response: Response, user_id : int = Query(...)):
     try:
-        #user_id = req.user_id
+        user_id = req.user_id
         
         #jumlah id tempat
         #n_tourisms = len(tourism.Place_Id.unique())
@@ -178,8 +178,8 @@ def recommend_locations(req:RequestLoc, response: Response):
     # Function implementation
 
     try:
-        #latitude = req.latitude
-        #longitude = req.longitude
+        latitude = req.latitude
+        longitude = req.longitude
         target_location = [latitude, longitude]
         target_scaled = scaler.transform([target_location])
 
