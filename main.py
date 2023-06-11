@@ -92,6 +92,7 @@ class RequestPredict(BaseModel):
 #         return "Internal Server Error"
 tourism = pd.read_csv('./tourism_data.csv')
 rating = pd.read_csv('./tourism_rating.csv')
+tourism2 = pd.read_csv('./tourism_with_id.csv')
 
 import random
 
@@ -121,7 +122,7 @@ def predict(req : RequestPredict, response: Response):
             recommended_tourism_ids_series = pd.Series(recommended_tourism_ids)
 
             # Filter the rows in tempat that have the same place IDs as recommended_tourism_ids
-            filtered_tempat = tourism[tourism['id'].isin(recommended_tourism_ids_series)]
+            filtered_tempat = tourism2[tourism2['Place_Id'].isin(recommended_tourism_ids_series)]
 
             # Print the filtered dataset
             filtered_tempat
