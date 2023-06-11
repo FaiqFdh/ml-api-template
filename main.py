@@ -108,10 +108,10 @@ def predict(req : RequestPredict, response: Response):
             #id_place = range(1, 436)
             id_place = list(range(1, 436))
             # Creating dataset for making recommendations for the first user
-            tourism_data = np.array(list(set(id_place)))
+            #tourism_data = np.array(list(set(id_place)))
 
             # Create dataset for making recommendations
-            #tourism_data = np.array([for a in range(1, 436)])
+            tourism_data = np.array([for a in range(1, 436)])
             user_data = np.array([user_id for a in range(len(tourism_data))])
 
             predictions = model.predict([user_data, tourism_data])
