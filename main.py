@@ -128,7 +128,9 @@ def predict(req : RequestPredict, response: Response):
 
             # Filter the rows in tempat that have the same place IDs as recommended_tourism_ids
             filtered_tempat = tourism2[tourism2['Place_Id'].isin(recommended_tourism_ids_series)]
-
+            
+            # Convert float values to strings
+            filtered_tempat = filtered_tempat.astype(str)
             #return {"recommended_tourism_ids": filtered_tempat}
             return {"recommended_tourism_ids": filtered_tempat.to_dict(orient='records')}
         
