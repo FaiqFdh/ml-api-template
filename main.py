@@ -117,15 +117,15 @@ def predict(req : RequestPredict, response: Response):
             predictions = model.predict([user_data, tourism_data])
             predictions = np.array([a[0] for a in predictions])
 
-            recommended_tourism_ids = (-predictions).argsort()[:10].tolist()
-            
+            recommended_tourism_ids = (-predictions).argsort()[:10]
+                
             # Convert recommended_tourism_ids to a pandas Series
             recommended_tourism_ids_series = pd.Series(recommended_tourism_ids)
 
             # Filter the rows in tempat that have the same place IDs as recommended_tourism_ids
             filtered_tempat = tourism2[tourism2['Place_Id'].isin(recommended_tourism_ids_series)]
 
-            return {"recommended_tourism_ids": filtered_tempat.to_dict(orient='records')}
+            return {"recommended_tourism_ids": filtered_tempat}
         
         else:
             # User ID doesn't exist, make random recommendations
