@@ -93,7 +93,7 @@ class RequestPredict(BaseModel):
 tourism = pd.read_csv('./tourism_data.csv')
 rating = pd.read_csv('./tourism_rating.csv')
 tourism2 = pd.read_csv('./tourism_with_id.csv')
-tourism2 = tourism2.drop(['Time_Minutes','Coordinate' ,'Unnamed: 11', 'Unnamed: 12'], axis=1)
+tourism2 = tourism2.drop(['Time_Minutes','Coordinate', 'Price' ,'Unnamed: 11', 'Unnamed: 12'], axis=1)
 #TIDAK BOLEH ADA VALUE KOSONG , JIKA ADA ERROR RETURN JSON
 
 import random
