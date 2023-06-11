@@ -90,7 +90,8 @@ class RequestPredict(BaseModel):
 #         response.status_code = 500
 #         return "Internal Server Error"
 tourism = pd.read_csv('./tourism_data.csv')
-rating = pd.read_csv('./tourism')
+rating = pd.read_csv('./tourism_rating.csv')
+
 @app.post("/predict")
 #def predict(req : RequestPredict, response: Response):
 def predict(response: Response, user_id : int = Query(...)):
@@ -99,22 +100,37 @@ def predict(response: Response, user_id : int = Query(...)):
         
         #jumlah id tempat
         #n_tourisms = len(tourism.Place_Id.unique())
-        if user_id in userRating['user_id'].values:
-        id_place = range(1, 436)
-        # Creating dataset for making recommendations for the first user
-        tourism_data = np.array(list(set(id_place)))
- 
-        # Create dataset for making recommendations
-        #tourism_data = np.array([for a in range(1, 436)])
-        user_data = np.array([user_id for a in range(len(tourism_data))])
+        if user_id in rating['User_Id'].values:
+            id_place = range(1, 436)
+            # Creating dataset for making recommendations for the first user
+            tourism_data = np.array(list(set(id_place)))
 
-        predictions = model.predict([user_data, tourism_data])
-        predictions = np.array([a[0] for a in predictions])
+            # Create dataset for making recommendations
+            #tourism_data = np.array([for a in range(1, 436)])
+            user_data = np.array([user_id for a in range(len(tourism_data))])
 
-        recommended_tourism_ids = (-predictions).argsort()[:10].tolist()
+            predictions = model.predict([user_data, tourism_data])
+            predictions = np.array([a[0] for a in predictions])
 
-        return {"recommended_tourism_ids": recommended_tourism_ids}
+            recommended_tourism_ids = (-predictions).argsort()[:10].tolist()
 
+            return {"recommended_tourism_ids": recommended_tourism_ids}
+        
+        else:
+            # User ID doesn't exist, make random recommendations
+             # Get the total number of tourism data
+            total_tourism = len(tourism)
+
+            # Generate random indices to select random recommendations
+            num_recomendations = 5
+            random_indices = random.sample(range(tourism), num_recommendations)
+
+            # Get the random recommendations based on the selected indices
+            random_recommendations = tourism.iloc[random_indices]
+
+            return random_recommendations
+
+     
     except Exception as e:
         traceback.print_exc()
         response.status_code = 500
