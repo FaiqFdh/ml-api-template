@@ -106,14 +106,6 @@ def predict(req : RequestPredict, response: Response):
         #n_tourisms = len(tourism.Place_Id.unique())
         if user_id in rating['User_Id'].values:
             id_place = range(1, 436)
-            #id_place = list(range(1, 436))
-            # Creating dataset for making recommendations for the first user
-            #tourism_data = np.array(list(set(id_place)))
-
-            # Create dataset for making recommendations
-            #tourism_data = np.array([for a in range(1, 436)])
-#             tourism_data = np.array(list(set(id_place)))
-#             user_data = np.array([user_id for a in range(len(tourism_data))])
             
             tourism_data = np.array(list(set(rating.Place_Id)))
             user = np.array([user_id for i in range(len(tourism_data))])
@@ -132,8 +124,8 @@ def predict(req : RequestPredict, response: Response):
             # Convert float values to strings
             #filtered_tempat = filtered_tempat.astype(str)
             
-            return {"recommended_tourism_ids": filtered_tempat}
-            #return {"recommended_tourism_ids": filtered_tempat.to_dict(orient='records')}
+            #return {"recommended_tourism_ids": filtered_tempat}
+            return {"recommended_tourism_ids": filtered_tempat.to_dict(orient='records')}
        
         else:
             # User ID doesn't exist, make random recommendations
