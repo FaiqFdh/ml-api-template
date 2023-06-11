@@ -116,7 +116,7 @@ def predict(req : RequestPredict, response: Response):
 #             user_data = np.array([user_id for a in range(len(tourism_data))])
             
             tourism_data = np.array(list(set(rating.Place_Id)))
-            user = np.array([id_user for i in range(len(tourism_data))])
+            user = np.array([user_id for i in range(len(tourism_data))])
   
             predictions = model.predict([user, tourism_data])
             predictions = np.array([a[0] for a in predictions])
