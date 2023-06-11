@@ -124,7 +124,7 @@ def predict(req : RequestPredict, response: Response):
             recommended_tourism_ids = (-predictions).argsort()[:10]
             
             # Convert recommended_tourism_ids to a pandas Series
-             recommended_tourism_ids_series = pd.Series(recommended_tourism_ids)
+            recommended_tourism_ids_series = pd.Series(recommended_tourism_ids)
 
             # Filter the rows in tempat that have the same place IDs as recommended_tourism_ids
             filtered_tempat = tourism2[tourism2['Place_Id'].isin(recommended_tourism_ids_series)]
