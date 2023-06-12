@@ -108,27 +108,51 @@ def predict(req : RequestPredict, response: Response):
         #jumlah id tempat
         #n_tourisms = len(tourism.Place_Id.unique())
         if user_id in rating['User_Id'].values:
-            id_place = range(1, 436)
+#             id_place = range(1, 436)
             
-            tourism_data = np.array(list(set(rating.Place_Id)))
-            user = np.array([user_id for i in range(len(tourism_data))])
+#             tourism_data = np.array(list(set(rating.Place_Id)))
+#             user = np.array([user_id for i in range(len(tourism_data))])
   
-            predictions = model.predict([user, tourism_data])
-            predictions = np.array([a[0] for a in predictions])
+#             predictions = model.predict([user, tourism_data])
+#             predictions = np.array([a[0] for a in predictions])
 
-            recommended_tourism_ids = (-predictions).argsort()[:10]
+#             recommended_tourism_ids = (-predictions).argsort()[:10]
+            
+#             # Convert recommended_tourism_ids to a pandas Series
+#             recommended_tourism_ids_series = pd.Series(recommended_tourism_ids)
+
+#             # Filter the rows in tempat that have the same place IDs as recommended_tourism_ids
+#             filtered_tempat = tourism2[tourism2['Place_Id'].isin(recommended_tourism_ids_series)]
+            
+#             # Convert float values to strings
+#             #filtered_tempat = filtered_tempat.astype(str)
+            
+#             #return {"recommended_tourism_ids": filtered_tempat}
+#             return {"recommended_tourism_ids": filtered_tempat.to_dict(orient='records')}
+        
+            # Convert user ID to integer
+            user_id = pd.Series([user_id]).astype('category').cat.codes.values[0]
+
+            # Create input data for recommendations
+            user_data = np.array([user_id] * len(tourism['Place_Id'].unique()))
+            tourism_data = np.array(list(tourism['Place_Id'].unique()))
+
+            # Make predictions
+            predictions = model.predict([user_data, tourism_data]).flatten()
+
+            top_k=10
+            # Get top-k recommendations
+            top_indices = predictions.argsort()[-top_k:][::-1]
+            top_recommendations = tourism.iloc[top_indices]['Place_Id']
             
             # Convert recommended_tourism_ids to a pandas Series
-            recommended_tourism_ids_series = pd.Series(recommended_tourism_ids)
+            top_recommendations_series = pd.Series(top_recommendations)
 
             # Filter the rows in tempat that have the same place IDs as recommended_tourism_ids
-            filtered_tempat = tourism2[tourism2['Place_Id'].isin(recommended_tourism_ids_series)]
-            
-            # Convert float values to strings
-            #filtered_tempat = filtered_tempat.astype(str)
-            
-            #return {"recommended_tourism_ids": filtered_tempat}
+            filtered_tempat = tourism2[tourism2['Place_Id'].isin(top_recommendations_series)]
+                        
             return {"recommended_tourism_ids": filtered_tempat.to_dict(orient='records')}
+
        
         else:
             # User ID doesn't exist, make random recommendations
