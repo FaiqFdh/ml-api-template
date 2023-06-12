@@ -136,8 +136,8 @@ def predict(req : RequestPredict, response: Response):
             user_id = pd.Series([user_id]).astype('category').cat.codes.values[0]
 
             # Create input data for recommendations
-            user_data = np.array([user_id] * len(tourism['Place_Id'].unique()))
-            tourism_data = np.array(list(tourism['Place_Id'].unique()))
+            user_data = np.array([user_id] * len(tourism['place_id'].unique()))
+            tourism_data = np.array(list(tourism['place_id'].unique()))
 
             # Make predictions
             predictions = model.predict([user_data, tourism_data]).flatten()
@@ -151,7 +151,7 @@ def predict(req : RequestPredict, response: Response):
             top_recommendations_series = pd.Series(top_recommendations)
 
             # Filter the rows in tempat that have the same place IDs as recommended_tourism_ids
-            filtered_tempat = tourism2[tourism2['Place_Id'].isin(top_recommendations_series)]
+            filtered_tempat = tourism[tourism['place_id'].isin(top_recommendations_series)]
                         
             return {"recommended_tourism_ids": filtered_tempat.to_dict(orient='records')}
 
