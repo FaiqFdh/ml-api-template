@@ -68,7 +68,7 @@ def index():
 
 class RequestPredict(BaseModel):
     #user_id: int
-    user_id: string
+    user_id: str
 
 # @app.post("/predict_text")
 # def predict_text(req: RequestText, response: Response):
