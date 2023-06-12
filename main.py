@@ -145,7 +145,7 @@ def predict(req : RequestPredict, response: Response):
             top_k=10
             # Get top-k recommendations
             top_indices = predictions.argsort()[-top_k:][::-1]
-            top_recommendations = tourism.iloc[top_indices]['Place_Id']
+            top_recommendations = tourism.iloc[top_indices]['place_id']
             
             # Convert recommended_tourism_ids to a pandas Series
             top_recommendations_series = pd.Series(top_recommendations)
