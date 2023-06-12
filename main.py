@@ -92,7 +92,9 @@ class RequestPredict(BaseModel):
 #         response.status_code = 500
 #         return "Internal Server Error"
 tourism = pd.read_csv('./tourism_data.csv')
-rating = pd.read_csv('./tourism_rating.csv')
+#rating = pd.read_csv('./tourism_rating.csv')
+rating = pd.read_csv('./user_rating.csv')
+
 tourism2 = pd.read_csv('./tourism_with_id.csv')
 tourism2 = tourism2.drop(['Time_Minutes','Coordinate', 'Price' ,'Unnamed: 11', 'Unnamed: 12'], axis=1)
 #TIDAK BOLEH ADA VALUE KOSONG , JIKA ADA ERROR RETURN JSON
@@ -107,7 +109,7 @@ def predict(req : RequestPredict, response: Response):
         
         #jumlah id tempat
         #n_tourisms = len(tourism.Place_Id.unique())
-        if user_id in rating['User_Id'].values:
+        if user_id in rating['user_id'].values:
 #             id_place = range(1, 436)
             
 #             tourism_data = np.array(list(set(rating.Place_Id)))
