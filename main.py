@@ -151,9 +151,9 @@ def predict(req : RequestPredict, response: Response):
             top_recommendations_series = pd.Series(top_recommendations)
 
             # Filter the rows in tempat that have the same place IDs as recommended_tourism_ids
-            filtered_tempat = tourism[tourism['id'].isin(top_recommendations_series)]
+            recommend = tourism[tourism['id'].isin(top_recommendations_series)]
                         
-            return {"recommended_tourism_ids": filtered_tempat.to_dict(orient='records')}
+            return {"recommendtations": recommend.to_dict(orient='records')}
 
        
         else:
@@ -167,9 +167,9 @@ def predict(req : RequestPredict, response: Response):
             random_indices = random.sample(range(len(tourism)), num_recommendations)
 
             # Get the random recommendations based on the selected indices
-            random_recommendations = tourism.iloc[random_indices].to_dict(orient='records')
+            recommend = tourism.iloc[random_indices]
 
-            return {"random_tourism_ids": random_recommendations}
+            return {"recommendations": recommend.to_dict(orient='records')}
 
      
     except Exception as e:
