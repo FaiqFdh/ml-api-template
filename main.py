@@ -153,7 +153,7 @@ def predict(req : RequestPredict, response: Response):
             # Filter the rows in tempat that have the same place IDs as recommended_tourism_ids
             recommend = tourism[tourism['id'].isin(top_recommendations_series)]
                         
-            return {"recommendtations": recommend.to_dict(orient='records')}
+            return {"recommendations": recommend.to_dict(orient='records')}
 
        
         else:
@@ -170,7 +170,7 @@ def predict(req : RequestPredict, response: Response):
             recommend = tourism.iloc[random_indices]
 
             return {"recommendations": recommend.to_dict(orient='records')}
-
+                    
      
     except Exception as e:
         traceback.print_exc()
